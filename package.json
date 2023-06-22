@@ -1,8 +1,15 @@
 {
   "scripts": {
-    "format": "prettier --write spec"
+    "format": "prettier --write spec && editorconfig-cli -x '/gradle.*'"
   },
+  "editorconfig-cli": [
+    "*",
+    "backend/**/*",
+    "frontend/**/*",
+    "spec/*"
+  ],
   "devDependencies": {
+    "@htmlacademy/editorconfig-cli": "^2.0.4",
     "prettier": "^2.8.8"
   }
 }
