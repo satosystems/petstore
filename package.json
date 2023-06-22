@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "format": "prettier --write spec && editorconfig-cli -x '/gradle.*'"
+    "format": "prettier --write spec && editorconfig-cli -x '/gradle.*' && markdownlint README.md"
   },
   "editorconfig-cli": [
     "*",
@@ -10,6 +10,7 @@
   ],
   "devDependencies": {
     "@htmlacademy/editorconfig-cli": "^2.0.4",
+    "markdownlint-cli": "^0.35.0",
     "prettier": "^2.8.8"
   }
 }
