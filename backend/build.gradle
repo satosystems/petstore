@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.1.1'
 	id 'io.spring.dependency-management' version '1.1.0'
+	id 'org.openapi.generator' version '6.6.0'
 }
 
 group = 'com.example'
@@ -24,12 +25,58 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation group: 'io.swagger.core.v3', name: 'swagger-annotations', version: '2.2.12'
+	implementation group: 'javax.annotation', name: 'javax.annotation-api', version: '1.3.2'
+	implementation group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
+	implementation group: 'org.openapitools', name: 'jackson-databind-nullable', version: '0.2.6'
 	compileOnly 'org.projectlombok:lombok'
+	compileOnly group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
 	runtimeOnly 'com.h2database:h2'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.9.3'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+openApiGenerate {
+	generatorName = "spring" // Spring で生成（https://openapi-generator.tech/docs/generators より選択）
+	inputSpec = "$rootDir/../spec/petstore.yaml" // OpenAPI 定義の場所
+	outputDir = "$buildDir/generated" // 生成場所
+	apiPackage = "com.example.petstore.openapi.api" // API エンドポイント定義パッケージ
+	modelPackage = "com.example.petstore.openapi.model" // モデル定義のパッケージ
+	configOptions.set([
+		delegatePattern: "true" // デリゲートパターンでコードを生成
+	])
+}
+
+sourceSets {
+	main {
+		java {
+			srcDirs = [
+				"$rootDir/src/main/java",
+				"${openApiGenerate.outputDir.get()}/src/main/java",
+			]
+		}
+	}
+	test {
+		java {
+			srcDirs = [
+				"$rootDir/src/test/java",
+				"${openApiGenerate.outputDir.get()}/src/test/java"
+			]
+		}
+	}
+}
+
+[compileJava, compileTestJava].each { task ->
+	task.doFirst {
+		delete "${openApiGenerate.outputDir.get()}/src/main/java/org"
+	}
+}
+
+compileJava {
+	dependsOn tasks.openApiGenerate
 }
