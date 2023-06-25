@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "gen": "rimraf src/openapi && openapi-generator-cli generate -i ../spec/petstore.yaml -g typescript-fetch -o ./src/openapi --additional-properties=modelPropertyNaming=camelCase,supportsES6=true,withInterfaces=true,typescriptThreePlus=true",
     "start": "run-s clean start:only",
     "start:only": "parcel src/index.html",
     "start-with-open": "run-s clean start-with-open:only",

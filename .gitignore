@@ -1,4 +1,6 @@
 docker/nginx/log/*.log
 frontend/.parcel-cache/
 frontend/dist/
+frontend/openapitools.json
+frontend/src/openapi/
 node_modules/
