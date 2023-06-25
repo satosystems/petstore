@@ -1,5 +1,12 @@
 {
   "scripts": {
+    "dc:up": "docker compose up",
+    "dc:clean": "docker compose down --rmi all --volumes --remove-orphans && docker builder prune -f",
+    "dc:exec": "run-p dc:exec:backend dc:exec:frontend dc:exec:nginx:access-log dc:exec:nginx:error-log",
+    "dc:exec:backend": "docker compose exec backend sh -c 'cd backend && ./gradlew bootRun'",
+    "dc:exec:frontend": "(cd frontend && npm run gen) && docker compose exec frontend sh -c 'cd frontend && rm -rf node_modules && npm ci && npm run start'",
+    "dc:exec:nginx:access-log": "docker compose exec nginx tail -f /var/log/nginx/access.log",
+    "dc:exec:nginx:error-log": "docker compose exec nginx tail -f /var/log/nginx/error.log",
     "format": "prettier --write spec frontend/src && editorconfig-cli -x '/gradle.*' && markdownlint README.md"
   },
   "editorconfig-cli": [
