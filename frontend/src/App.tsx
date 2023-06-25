@@ -1,5 +1,11 @@
 import React from "react";
 
+import { FindPetById } from "./Pet";
+
 export const App: React.FC = () => {
-  return <h1>Hello Petstore</h1>;
+  return (
+    <div>
+      <FindPetById />
+    </div>
+  );
 };
