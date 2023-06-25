@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "format": "prettier --write spec && editorconfig-cli -x '/gradle.*' && markdownlint README.md"
+    "format": "prettier --write spec frontend/src && editorconfig-cli -x '/gradle.*' && markdownlint README.md"
   },
   "editorconfig-cli": [
     "*",
