@@ -1,4 +1,13 @@
 {
+  "scripts": {
+    "start": "run-s clean start:only",
+    "start:only": "parcel src/index.html",
+    "start-with-open": "run-s clean start-with-open:only",
+    "start-with-open:only": "parcel src/index.html --open",
+    "build": "run-s clean build:only",
+    "build:only": "parcel build src/index.html",
+    "clean": "rimraf .parcel-cache dist"
+  },
   "devDependencies": {
     "parcel": "^2.9.2"
   }
